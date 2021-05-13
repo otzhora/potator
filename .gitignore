@@ -1,2 +1,4 @@
 .idea
 venv
+duplication/tokenizer
+*/.ipynb_checkpoints/*

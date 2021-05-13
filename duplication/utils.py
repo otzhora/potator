@@ -3,8 +3,7 @@ from pathlib import Path
 
 
 TOKENIZER_DIR = Path('tokenizer')
-TOKENIZER_URL = 'https://github.com/JetBrains-Research/identifiers-extractor.git'
-TOKENIZER_VERSION = 'v1.1.1'
+TOKENIZER_URL = 'https://github.com/otzhora/buckwheat'
 
 
 def mkdir(path: str) -> None:
