@@ -2,3 +2,4 @@
 venv
 duplication/tokenizer
 */.ipynb_checkpoints/*
+*/__pycache__/*
