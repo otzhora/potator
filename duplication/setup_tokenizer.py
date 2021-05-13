@@ -1,4 +1,4 @@
-import os
+from pathlib import Path
 
 from duplication.utils import *
 
@@ -8,14 +8,23 @@ def setup_tokenizer() -> None:
     Clone GitHub repository with tokenizer and setup it.
     :return: None.
     """
-    os.system(f'git clone {TOKENIZER_URL} {TOKENIZER_DIR}')
-    os.chdir(TOKENIZER_DIR)
+    cwd = Path(os.getcwd())
+
+    if not os.path.exists(cwd/TOKENIZER_DIR):
+        os.system(f'git clone {TOKENIZER_URL} {TOKENIZER_DIR}')
+
+    os.chdir(cwd/TOKENIZER_DIR)
+    os.system(f'git pull')
     os.system('git submodule update --init --recursive --depth 1')
     os.chdir('..')
 
-    from .tokenizer.buckwheat.parsing import main
-    os.chdir("tokenizer/buckwheat/parsing")
-    main()
+    from .tokenizer.buckwheat.parsing import main as parsing_main
+    os.chdir(cwd/TOKENIZER_DIR/"buckwheat"/"parsing")
+    parsing_main()
+
+    from .tokenizer.buckwheat.language_recognition import main as enry_main
+    os.chdir(cwd/TOKENIZER_DIR/"buckwheat"/"language_recognition")
+    enry_main()
 
 
 if __name__ == '__main__':

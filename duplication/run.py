@@ -1,1 +1,3 @@
-from .tokenizer.buckwheat.tokenizer import get_data_from_file
+from .tokenizer.buckwheat.tokenizer import *
+from .tokenizer.buckwheat.language_recognition import *
+
