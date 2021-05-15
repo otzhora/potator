@@ -9,7 +9,7 @@ def overlap(bag_of_tokens1: List[str], bag_of_tokens2: List[str]) -> float:
     :param bag_of_tokens2:
     :return: value of overlap
     """
-    return len(Counter(bag_of_tokens1) & Counter(bag_of_tokens2))
+    return sum((Counter(bag_of_tokens1) & Counter(bag_of_tokens2)).values())
 
 
 def jaccard(bag_of_tokens1: List[str], bag_of_tokens2: List[str]) -> float:
