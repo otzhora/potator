@@ -1,3 +1,4 @@
+from collections import Counter
 from typing import List
 
 
@@ -8,7 +9,7 @@ def overlap(bag_of_tokens1: List[str], bag_of_tokens2: List[str]) -> float:
     :param bag_of_tokens2:
     :return: value of overlap
     """
-    return sum(token1 in bag_of_tokens2 for token1 in bag_of_tokens1)
+    return len(Counter(bag_of_tokens1) & Counter(bag_of_tokens2))
 
 
 def jaccard(bag_of_tokens1: List[str], bag_of_tokens2: List[str]) -> float:
@@ -18,4 +19,7 @@ def jaccard(bag_of_tokens1: List[str], bag_of_tokens2: List[str]) -> float:
     :param bag_of_tokens2:
     :return: value of overlap
     """
-    return overlap(bag_of_tokens1, bag_of_tokens2) / max(len(bag_of_tokens1), len(bag_of_tokens2))
+    max_len = max(len(bag_of_tokens1), len(bag_of_tokens2))
+    if max_len == 0:
+        return 0
+    return overlap(bag_of_tokens1, bag_of_tokens2) / max_len
