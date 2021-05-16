@@ -1,14 +1,8 @@
-import os
-
+from duplication.models import DetectionResult
 
 TOKENIZER_DIR = 'duplication/tokenizer'
 TOKENIZER_URL = 'https://github.com/otzhora/buckwheat'
 
 
-def mkdir(path: str) -> None:
-    if not os.path.exists(path):
-        os.mkdir(path)
-
-    if not os.path.isdir(path):
-        raise ValueError(f'{path} is not a directory!')
-
+def format_detection_result(result: DetectionResult, out: str) -> None:
+    pass
