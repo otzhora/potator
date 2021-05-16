@@ -1,8 +1,9 @@
 import os
+from collections import defaultdict, Counter
 from difflib import HtmlDiff
+from typing import List, Dict
 
-from duplication.models import DetectionResult
-
+from duplication.models import DetectionResult, EntityData
 
 TOKENIZER_DIR = 'duplication/tokenizer'
 TOKENIZER_URL = 'https://github.com/otzhora/buckwheat'
@@ -53,3 +54,22 @@ def make_absolute_path(path: str) -> str:
     if os.path.isabs(path):
         return path
     return os.path.join(os.getcwd(), path)
+
+
+LANGUAGE_ORDER = Dict[str, int]
+
+
+def build_global_token_counts_from_entities(entities: List[EntityData]) -> Dict[str, LANGUAGE_ORDER]:
+    global_token_counts = defaultdict(Counter)
+    for entity in entities:
+        global_token_counts[entity.object_data.lang] += Counter(entity.bag_of_tokens)
+
+    return global_token_counts
+
+
+def sort_tokens_gtc(entities: List[EntityData]) -> None:
+    global_token_counts = build_global_token_counts_from_entities(entities)
+
+    for entity in entities:
+        lang_token_counts = global_token_counts[entity.object_data.lang]
+        entity.bag_of_tokens.sort(key=lambda token: lang_token_counts[token])

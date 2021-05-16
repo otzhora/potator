@@ -1,6 +1,7 @@
 from duplication.extractors import EntitiesExtractor
 from duplication.models import CloneData, DetectionResult, EntityData
 from duplication.similarity_metrics import jaccard
+from duplication.utils import sort_tokens_gtc
 
 
 def _validate_entity_candidate(entity: EntityData, candidate: EntityData) -> bool:
@@ -33,3 +34,12 @@ class NaiveDetector(Detector):
 
         return DetectionResult(clones, f"NaiveDetector(), directory: {directory}, threshold: {threshold}, "
                                        f"granularity: {granularity}")
+
+
+class FilteringDetector(Detector):
+    def detect(self, directory: str, threshold: float, granularity: str) -> DetectionResult:
+        files, files_data, entities = EntitiesExtractor.extract_data_from_directory(directory, granularity)
+        sort_tokens_gtc(entities)
+
+        return DetectionResult([], f"FilteringDetector(), directory: {directory}, threshold: {threshold}, "
+                                   f"granularity: {granularity}")
