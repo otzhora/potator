@@ -1,16 +1,19 @@
 from argparse import ArgumentParser, Namespace
 
 from duplication.detectors import NaiveDetector
+from duplication.utils import write_formatted_detection_result, make_absolute_path
 
 
 def main(program_args: Namespace) -> None:
-    directory = program_args.directory
+    directory = make_absolute_path(program_args.directory)
     threshold = program_args.threshold
     granularity = program_args.granularity
+    output = make_absolute_path(program_args.out)
 
     detector = NaiveDetector()
-    clones = detector.detect(directory, threshold, granularity)
-    print(clones)
+    result = detector.detect(directory, threshold, granularity)
+    print(f"Writing result to {output}...")
+    write_formatted_detection_result(result, output)
 
 
 if __name__ == "__main__":
