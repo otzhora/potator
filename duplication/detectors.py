@@ -1,5 +1,5 @@
 from duplication.extractors import EntitiesExtractor
-from duplication.models import DetectionResult
+from duplication.models import CloneData, DetectionResult
 from duplication.similarity_metrics import jaccard
 
 
@@ -27,6 +27,9 @@ class NaiveDetector(Detector):
 
                 sim = jaccard(entity.bag_of_tokens, candidate.bag_of_tokens)
                 if sim > threshold:
-                    clones.append((entity, candidate, sim))
+                    clones.append(CloneData(entity, candidate, sim))
 
-        return DetectionResult(clones)
+        clones = list(sorted(clones, reverse=True))
+
+        return DetectionResult(clones, f"NaiveDetector(), directory: {directory}, threshold: {threshold}, "
+                                       f"granularity: {granularity}")

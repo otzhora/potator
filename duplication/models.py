@@ -4,6 +4,9 @@ from typing import List, Tuple
 from duplication.tokenizer.buckwheat.utils import ObjectData
 
 
+File = Tuple[str, str]
+
+
 @dataclass
 class EntityData:
     object_data: ObjectData
@@ -12,11 +15,19 @@ class EntityData:
 
 
 @dataclass
+class CloneData:
+    entity_1: EntityData
+    entity_2: EntityData
+    similarity: float
+
+    def __lt__(self, other):
+        return self.similarity < other.similarity
+
+
+@dataclass
 class DetectionResult:
     """
     Class for storing results of detection
     """
-    clones: List[Tuple[EntityData, EntityData, float]]
-
-
-File = Tuple[str, str]
+    clones: List[CloneData]
+    used_algorithm: str
