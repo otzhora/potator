@@ -1,5 +1,6 @@
 from collections import defaultdict
 from dataclasses import dataclass
+from math import ceil
 from typing import List, Dict
 
 from duplication.models import EntityData
@@ -12,24 +13,31 @@ class Index:
     tokens2entities: Dict[str, List[EntityData]]
 
 
-def build_l_index(entities: List[EntityData], l_depth: int) -> Dict[str, Index]:
+# TODO: maybe bounds should be on number of unique tokens. Think about that
+def build_l_index(entities: List[EntityData], l_depth: int, thr: float = 0.8) -> Dict[str, Index]:
     tokens2entities = defaultdict(lambda: defaultdict(list))
     for entity in entities:
         lang = entity.object_data.lang
         tokens = entity.bag_of_tokens
-        if len(tokens) > l_depth:
-            tokens2entities[lang][tokens[l_depth]].append(entity)
+
+        left_bound = 0 if l_depth == 1 else len(tokens) - ceil(thr * len(tokens)) + l_depth - 1
+        right_bound = len(tokens) - ceil(thr * len(tokens)) + l_depth
+
+        for token in set(tokens[left_bound: right_bound]):
+            tokens2entities[lang][token].append(entity)
+
     return {lang: Index(lang, l_depth, tokens2entities[lang]) for lang in tokens2entities.keys()}
 
 
 class Indexer:
-    def __init__(self, entities: List[EntityData], max_l_depth: int = 1):
+    def __init__(self, entities: List[EntityData], max_l_depth: int = 1, threshold: float = 0.8):
         self.max_l_depth: int = max_l_depth
+        self.threshold: float = threshold
 
         self._indexes: List[Dict[str, Index]] = []
 
         for l_depth in range(1, self.max_l_depth + 1):
-            self._indexes.append(build_l_index(entities, l_depth))
+            self._indexes.append(build_l_index(entities, l_depth, self.threshold))
 
     def get_entities_for_token(self, token, lang, depth):
         return self._indexes[depth - 1][lang].tokens2entities[token]
