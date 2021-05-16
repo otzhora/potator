@@ -27,6 +27,7 @@ class NaiveDetector(Detector):
                 if not _validate_entity_candidate(entity, candidate):
                     continue
 
+                # TODO: token position filtering
                 sim = jaccard(entity.bag_of_tokens, candidate.bag_of_tokens)
                 if sim > threshold:
                     clones.append(CloneData(entity, candidate, sim))
