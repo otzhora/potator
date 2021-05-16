@@ -1,7 +1,7 @@
 from collections import defaultdict
 from dataclasses import dataclass
 from math import ceil
-from typing import List, Dict
+from typing import List, Dict, Tuple
 
 from duplication.models import EntityData
 
@@ -13,6 +13,12 @@ class Index:
     tokens2entities: Dict[str, List[EntityData]]
 
 
+def get_tokens_bounds(tokens: List[str], l_depth: int, thr: float) -> Tuple[int, int]:
+    left_bound = 0 if l_depth == 1 else len(tokens) - ceil(thr * len(tokens)) + l_depth - 1
+    right_bound = len(tokens) - ceil(thr * len(tokens)) + l_depth
+    return left_bound, right_bound
+
+
 # TODO: maybe bounds should be on number of unique tokens. Think about that
 def build_l_index(entities: List[EntityData], l_depth: int, thr: float = 0.8) -> Dict[str, Index]:
     tokens2entities = defaultdict(lambda: defaultdict(list))
@@ -20,8 +26,7 @@ def build_l_index(entities: List[EntityData], l_depth: int, thr: float = 0.8) ->
         lang = entity.object_data.lang
         tokens = entity.bag_of_tokens
 
-        left_bound = 0 if l_depth == 1 else len(tokens) - ceil(thr * len(tokens)) + l_depth - 1
-        right_bound = len(tokens) - ceil(thr * len(tokens)) + l_depth
+        left_bound, right_bound = get_tokens_bounds(tokens, l_depth, thr)
 
         for token in set(tokens[left_bound: right_bound]):
             tokens2entities[lang][token].append(entity)

@@ -13,6 +13,9 @@ class EntityData:
     bag_of_tokens: List[str]
     file_path: str
 
+    def __hash__(self):
+        return hash(f"{self.file_path} + {self.object_data.content}")
+
 
 @dataclass
 class CloneData:
