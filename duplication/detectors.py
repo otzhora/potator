@@ -1,9 +1,9 @@
 from duplication.extractors import EntitiesExtractor
-from duplication.models import CloneData, DetectionResult
+from duplication.models import CloneData, DetectionResult, EntityData
 from duplication.similarity_metrics import jaccard
 
 
-def _validate_entity_candidate(entity, candidate):
+def _validate_entity_candidate(entity: EntityData, candidate: EntityData) -> bool:
     return entity != candidate and entity.object_data.lang == candidate.object_data.lang and \
            entity.object_data.object_type == candidate.object_data.object_type
 

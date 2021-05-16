@@ -1,7 +1,7 @@
 import os
 from pathlib import Path
 
-from duplication.utils import *
+from duplication.utils import TOKENIZER_DIR, TOKENIZER_URL
 
 
 def setup_tokenizer() -> None:
