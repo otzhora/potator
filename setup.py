@@ -9,6 +9,7 @@ setup(
     name='duplication',
     version='0.1.0',
     packages=['duplication'],
+    package_dir={'duplication': 'duplication'},
     entry_points={
         'console_scripts': [
             'duplication = duplication.__main__:main'
