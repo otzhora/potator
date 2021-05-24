@@ -35,7 +35,7 @@ setup(
     long_description_content_type="text/markdown",
     license='MIT',
     url='https://github.com/otzhora/code_duplication_detector',
-    download_url='https://github.com/otzhora/code_duplication_detector/archive/0.1.0.tar.gz',
+    download_url='https://github.com/otzhora/code_duplication_detector/releases/tag/v0.1.0',
     dependency_links=dependency_links,
     keywords=['STATIC-ANALYSIS', 'PLAGIARISM-DETECTION', 'PLAGIARISM-DETECTOR'],
     author_email='rogachev.yuiry28@gmail.com',
