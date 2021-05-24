@@ -21,5 +21,5 @@ python3 -m dupllication.setup_tokenizer
 Now you are ready to use this utility. 
 
 ```bash
-python3 -m duplication DIRECTORY -t THRESHLOD -g GRANULARIY -o OUTPUT_FILE
+python3 -m code-duplication-detector DIRECTORY -t THRESHLOD -g GRANULARIY -o OUTPUT_FILE
 ```

@@ -1,3 +1,3 @@
 [submodule "tokenizer"]
-	path = duplication/tokenizer
+	path = code-duplication-detector/tokenizer
 	url = https://github.com/otzhora/buckwheat

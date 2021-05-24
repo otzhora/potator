@@ -1,7 +1,7 @@
 from dataclasses import dataclass
 from typing import List, Tuple
 
-from duplication.tokenizer.buckwheat.utils import ObjectData
+from .tokenizer.buckwheat.utils import ObjectData
 
 
 File = Tuple[str, str]
