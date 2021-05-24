@@ -5,3 +5,4 @@ duplication/tokenizer
 */__pycache__/*
 dist
 duplication.egg-info
+code_duplication_detector.egg-info

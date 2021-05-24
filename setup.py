@@ -18,24 +18,24 @@ with open(path.join(HERE, 'requirements.txt'), encoding='utf-8') as f:
 setup_tokenizer()
 
 setup(
-    name='duplication',
+    name='code_duplication_detector',
     description='',
-    version='0.1.2',
-    packages=['duplication'],
-    package_dir={'duplication': 'duplication'},
+    version='0.1.0',
+    packages=['code_duplication_detector'],
+    package_dir={'code_duplication_detector': 'duplication'},
     install_requires=install_requires,
     python_requires='>=3.6',
     entry_points={
         'console_scripts': [
-            'duplication = duplication.__main__:main'
+            'code_duplication_detector = duplication.__main__:main'
         ]
     },
     author="Yuriy Rogachev",
     long_description=README,
     long_description_content_type="text/markdown",
     license='MIT',
-    url='https://github.com/otzhora/duplication',
-    download_url='https://github.com/otzhora/duplication/archive/0.1.1.tar.gz',
+    url='https://github.com/otzhora/code_duplication_detector',
+    download_url='https://github.com/otzhora/code_duplication_detector/archive/0.1.0.tar.gz',
     dependency_links=dependency_links,
     keywords=['STATIC-ANALYSIS', 'PLAGIARISM-DETECTION', 'PLAGIARISM-DETECTOR'],
     author_email='rogachev.yuiry28@gmail.com',
@@ -44,7 +44,7 @@ setup(
         'Intended Audience :: Developers',
         'Topic :: Software Development :: Quality Assurance',
         'License :: OSI Approved :: MIT License',
-        'Programming Language :: Python :: 3',  # Specify which pyhton versions that you want to support
+        'Programming Language :: Python :: 3',
         'Programming Language :: Python :: 3.6',
         'Programming Language :: Python :: 3.7',
         'Programming Language :: Python :: 3.8'])
