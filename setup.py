@@ -1,5 +1,6 @@
 from setuptools import setup
-from setuptools.command import develop, install
+from setuptools.command.develop import develop
+from setuptools.command.install import install
 import pathlib
 
 from potator.setup_tokenizer import setup_tokenizer
