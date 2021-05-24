@@ -3,6 +3,5 @@ venv
 potator/tokenizer
 */.ipynb_checkpoints/*
 */__pycache__/*
+potator.egg-info
 dist
-duplication.egg-info
-code_duplication_detector.egg-info
