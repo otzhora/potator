@@ -5,8 +5,6 @@ from typing import List, Dict
 
 from duplication.models import DetectionResult, EntityData
 
-TOKENIZER_DIR = 'duplication/tokenizer'
-TOKENIZER_URL = 'https://github.com/otzhora/buckwheat'
 
 HTML_HEADER = """
 <head>

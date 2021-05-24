@@ -1,7 +1,9 @@
 import os
 from pathlib import Path
 
-from duplication.utils import TOKENIZER_DIR, TOKENIZER_URL
+
+TOKENIZER_DIR = 'duplication/tokenizer'
+TOKENIZER_URL = 'https://github.com/otzhora/buckwheat'
 
 
 def setup_tokenizer() -> None:
