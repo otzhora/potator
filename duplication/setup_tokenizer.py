@@ -28,6 +28,7 @@ def setup_tokenizer() -> None:
     from .tokenizer.buckwheat.language_recognition import main as enry_main
     os.chdir(cwd/TOKENIZER_DIR/"buckwheat"/"language_recognition")
     enry_main()
+    os.chdir(cwd)
 
 
 if __name__ == '__main__':
