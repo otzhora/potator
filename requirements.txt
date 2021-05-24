@@ -1,4 +1,3 @@
-numpy
 pygments
 joblib
 tqdm

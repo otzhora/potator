@@ -1,6 +1,4 @@
-Small code clone detection package. It supports multiple Code Duplication Detectors and displays its results as a nice html. 
-
-PIP package: coming soon...
+Small code clone detection tool. It supports multiple Code Duplication Detectors and displays its results as a nice html. 
 
 # Requirements
 

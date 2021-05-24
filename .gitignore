@@ -3,3 +3,5 @@ venv
 duplication/tokenizer
 */.ipynb_checkpoints/*
 */__pycache__/*
+dist
+duplication.egg-info
