@@ -1,10 +1,10 @@
 import functools
 from typing import List, Tuple
 
-from .models import EntityData, File
-from .tokenizer.buckwheat import get_identifiers_sequence_from_code, recognize_languages_dir
-from .tokenizer.buckwheat.tokenizer import get_data_from_file
-from .tokenizer.buckwheat.utils import FileData, ObjectData, transform_files_list, get_full_path
+from duplication.models import EntityData, File
+from duplication.tokenizer.buckwheat import get_identifiers_sequence_from_code, recognize_languages_dir
+from duplication.tokenizer.buckwheat.tokenizer import get_data_from_file
+from duplication.tokenizer.buckwheat.utils import FileData, ObjectData, transform_files_list, get_full_path
 
 
 MIN_ENTITY_LENGTH = 128

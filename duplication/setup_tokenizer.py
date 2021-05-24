@@ -2,7 +2,7 @@ import os
 from pathlib import Path
 
 
-TOKENIZER_DIR = 'code-duplication-detector/tokenizer'
+TOKENIZER_DIR = 'duplication/tokenizer'
 TOKENIZER_URL = 'https://github.com/otzhora/buckwheat'
 
 

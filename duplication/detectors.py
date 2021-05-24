@@ -2,12 +2,12 @@ from dataclasses import dataclass
 from math import ceil
 from typing import List
 
-from .extractors import EntitiesExtractor
-from .indexer import Indexer, get_tokens_bounds
-from .models import CloneData, DetectionResult, EntityData
-from .similarity_metrics import jaccard
-from .utils import sort_tokens_gtc, LANGUAGE_ORDER
-from .profiler import Profile
+from duplication.extractors import EntitiesExtractor
+from duplication.indexer import Indexer, get_tokens_bounds
+from duplication.models import CloneData, DetectionResult, EntityData
+from duplication.similarity_metrics import jaccard
+from duplication.utils import sort_tokens_gtc, LANGUAGE_ORDER
+from duplication.profiler import Profile
 
 
 def _validate_entity_candidate(entity: EntityData, candidate: EntityData) -> bool:

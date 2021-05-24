@@ -22,12 +22,12 @@ setup(
     description='',
     version='0.1.0',
     packages=['code_duplication_detector'],
-    package_dir={'code_duplication_detector': 'code-duplication-detector'},
+    package_dir={'code_duplication_detector': 'duplication'},
     install_requires=install_requires,
     python_requires='>=3.6',
     entry_points={
         'console_scripts': [
-            'code_duplication_detector = code-duplication-detector.__main__:main'
+            'code_duplication_detector = duplication.__main__:main'
         ]
     },
     author="Yuriy Rogachev",

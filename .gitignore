@@ -1,6 +1,6 @@
 .idea
 venv
-code-duplication-detector/tokenizer
+duplication/tokenizer
 */.ipynb_checkpoints/*
 */__pycache__/*
 dist
