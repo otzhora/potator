@@ -1,8 +1,12 @@
+from dataclasses import dataclass
+from math import ceil
+from typing import List
+
 from duplication.extractors import EntitiesExtractor
 from duplication.indexer import Indexer, get_tokens_bounds
 from duplication.models import CloneData, DetectionResult, EntityData
 from duplication.similarity_metrics import jaccard
-from duplication.utils import sort_tokens_gtc
+from duplication.utils import sort_tokens_gtc, LANGUAGE_ORDER
 
 
 def _validate_entity_candidate(entity: EntityData, candidate: EntityData) -> bool:
@@ -27,7 +31,6 @@ class NaiveDetector(Detector):
                 if not _validate_entity_candidate(entity, candidate):
                     continue
 
-                # TODO: token position filtering
                 sim = jaccard(entity.bag_of_tokens, candidate.bag_of_tokens)
                 if sim > threshold:
                     clones.append(CloneData(entity, candidate, sim))
@@ -38,13 +41,47 @@ class NaiveDetector(Detector):
                                        f"granularity: {granularity}")
 
 
+@dataclass
+class CandidateData:
+    is_clone: bool
+    score: float
+
+
+def compute_candidate_similarity(tokens1: List[str], tokens2: List[str], ths: float, gtc: LANGUAGE_ORDER) \
+        -> CandidateData:
+    max_len = max(len(tokens1), len(tokens2))
+    req_matches = ceil(max_len * ths)
+
+    curr_matches = 0
+    tok_pos1 = 0
+    tok_pos2 = 0
+    while tok_pos1 < len(tokens1) and tok_pos2 < len(tokens2):
+        if min(len(tokens1) - tok_pos1, len(tokens2) - tok_pos2) + curr_matches >= req_matches:
+            if tokens1[tok_pos1] == tokens2[tok_pos2]:
+                curr_matches += 1
+                tok_pos1 += 1
+                tok_pos2 += 1
+            else:
+                if gtc[tokens1[tok_pos1]] < gtc[tokens2[tok_pos2]]:
+                    tok_pos1 += 1
+                else:
+                    tok_pos2 += 1
+        else:
+            break
+
+    if curr_matches >= req_matches:
+        return CandidateData(True, curr_matches / max_len)
+    else:
+        return CandidateData(False, curr_matches / max_len)
+
+
 class FilteringDetector(Detector):
     def __init__(self, max_l_depth: int = 1):
         self.max_l_depth = max_l_depth
 
     def detect(self, directory: str, threshold: float, granularity: str) -> DetectionResult:
         files, files_data, entities = EntitiesExtractor.extract_data_from_directory(directory, granularity)
-        sort_tokens_gtc(entities)
+        gtc = sort_tokens_gtc(entities)
         indexer = Indexer(entities, self.max_l_depth, threshold)
 
         clones = []
@@ -65,11 +102,12 @@ class FilteringDetector(Detector):
                     continue
                 if (entity, candidate) in considered_pairs or (candidate, entity) in considered_pairs:
                     continue
+                considered_pairs.add((entity, candidate))
 
-                sim = jaccard(entity.bag_of_tokens, candidate.bag_of_tokens)
-                if sim > threshold:
-                    clones.append(CloneData(entity, candidate, sim))
-                    considered_pairs.add((entity, candidate))
+                candidate_data = compute_candidate_similarity(entity.bag_of_tokens, candidate.bag_of_tokens, threshold,
+                                                              gtc[entity.object_data.lang])
+                if candidate_data.is_clone:
+                    clones.append(CloneData(entity, candidate, candidate_data.score))
 
         clones = list(sorted(clones, reverse=True))
 

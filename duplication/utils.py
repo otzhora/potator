@@ -67,9 +67,10 @@ def build_global_token_counts_from_entities(entities: List[EntityData]) -> Dict[
     return global_token_counts
 
 
-def sort_tokens_gtc(entities: List[EntityData]) -> None:
+def sort_tokens_gtc(entities: List[EntityData]) -> Dict[str, LANGUAGE_ORDER]:
     global_token_counts = build_global_token_counts_from_entities(entities)
 
     for entity in entities:
         lang_token_counts = global_token_counts[entity.object_data.lang]
         entity.bag_of_tokens.sort(key=lambda token: lang_token_counts[token])
+    return global_token_counts
