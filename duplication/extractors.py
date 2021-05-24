@@ -7,6 +7,9 @@ from duplication.tokenizer.buckwheat.tokenizer import get_data_from_file
 from duplication.tokenizer.buckwheat.utils import FileData, ObjectData, transform_files_list, get_full_path
 
 
+MIN_ENTITY_LENGTH = 128
+
+
 class EntitiesExtractor:
     @staticmethod
     def extract_entity_from_object_data(obj: ObjectData, file_path: str) -> EntityData:
@@ -16,7 +19,7 @@ class EntitiesExtractor:
     @staticmethod
     def extract_entity_from_file_data(file: FileData) -> List[EntityData]:
         return [EntitiesExtractor.extract_entity_from_object_data(obj, file.path)
-                for obj in file.objects]
+                for obj in file.objects if obj.end_byte - obj.start_byte >= MIN_ENTITY_LENGTH]
 
     @staticmethod
     def extract_entities_from_files_data(files: List[FileData]) -> List[EntityData]:
