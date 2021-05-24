@@ -7,6 +7,7 @@ from duplication.indexer import Indexer, get_tokens_bounds
 from duplication.models import CloneData, DetectionResult, EntityData
 from duplication.similarity_metrics import jaccard
 from duplication.utils import sort_tokens_gtc, LANGUAGE_ORDER
+from duplication.profiler import Profile
 
 
 def _validate_entity_candidate(entity: EntityData, candidate: EntityData) -> bool:
@@ -21,19 +22,21 @@ class Detector:
 
 class NaiveDetector(Detector):
     def detect(self, directory: str, threshold: float, granularity: str) -> DetectionResult:
-        files, files_data, entities = EntitiesExtractor.extract_data_from_directory(directory, granularity)
+        with Profile("EntitiesExtractor.extract_data_from_directory"):
+            files, files_data, entities = EntitiesExtractor.extract_data_from_directory(directory, granularity)
 
         clones = []
-        for i in range(len(entities)):
-            entity = entities[i]
-            for j in range(i + 1, len(entities)):
-                candidate = entities[j]
-                if not _validate_entity_candidate(entity, candidate):
-                    continue
+        with Profile("Validate candidates set"):
+            for i in range(len(entities)):
+                entity = entities[i]
+                for j in range(i + 1, len(entities)):
+                    candidate = entities[j]
+                    if not _validate_entity_candidate(entity, candidate):
+                        continue
 
-                sim = jaccard(entity.bag_of_tokens, candidate.bag_of_tokens)
-                if sim > threshold:
-                    clones.append(CloneData(entity, candidate, sim))
+                    sim = jaccard(entity.bag_of_tokens, candidate.bag_of_tokens)
+                    if sim > threshold:
+                        clones.append(CloneData(entity, candidate, sim))
 
         clones = list(sorted(clones, reverse=True))
 
@@ -80,9 +83,12 @@ class FilteringDetector(Detector):
         self.max_l_depth = max_l_depth
 
     def detect(self, directory: str, threshold: float, granularity: str) -> DetectionResult:
-        files, files_data, entities = EntitiesExtractor.extract_data_from_directory(directory, granularity)
-        gtc = sort_tokens_gtc(entities)
-        indexer = Indexer(entities, self.max_l_depth, threshold)
+        with Profile("EntitiesExtractor.extract_data_from_directory"):
+            files, files_data, entities = EntitiesExtractor.extract_data_from_directory(directory, granularity)
+        with Profile("sort_tokens_gtc"):
+            gtc = sort_tokens_gtc(entities)
+        with Profile("Indexer"):
+            indexer = Indexer(entities, self.max_l_depth, threshold)
 
         clones = []
         considered_pairs = set()
@@ -92,22 +98,25 @@ class FilteringDetector(Detector):
             tokens = entity.bag_of_tokens
 
             candidates = set()
-            for l_depth in range(1, self.max_l_depth + 1):
-                left_bound, right_bound = get_tokens_bounds(tokens, l_depth, threshold)
-                for token in tokens[left_bound: right_bound]:
-                    candidates.update(indexer.get_entities_for_token(token, lang, l_depth))
 
-            for candidate in candidates:
-                if not _validate_entity_candidate(entity, candidate):
-                    continue
-                if (entity, candidate) in considered_pairs or (candidate, entity) in considered_pairs:
-                    continue
-                considered_pairs.add((entity, candidate))
+            with Profile("Build candidates set"):
+                for l_depth in range(1, self.max_l_depth + 1):
+                    left_bound, right_bound = get_tokens_bounds(tokens, l_depth, threshold)
+                    for token in tokens[left_bound: right_bound]:
+                        candidates.update(indexer.get_entities_for_token(token, lang, l_depth))
 
-                candidate_data = compute_candidate_similarity(entity.bag_of_tokens, candidate.bag_of_tokens, threshold,
-                                                              gtc[entity.object_data.lang])
-                if candidate_data.is_clone:
-                    clones.append(CloneData(entity, candidate, candidate_data.score))
+            with Profile("Validate candidates set"):
+                for candidate in candidates:
+                    if not _validate_entity_candidate(entity, candidate):
+                        continue
+                    if (entity, candidate) in considered_pairs or (candidate, entity) in considered_pairs:
+                        continue
+                    considered_pairs.add((entity, candidate))
+
+                    candidate_data = compute_candidate_similarity(entity.bag_of_tokens, candidate.bag_of_tokens, threshold,
+                                                                  gtc[entity.object_data.lang])
+                    if candidate_data.is_clone:
+                        clones.append(CloneData(entity, candidate, candidate_data.score))
 
         clones = list(sorted(clones, reverse=True))
 

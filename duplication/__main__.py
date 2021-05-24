@@ -2,6 +2,7 @@ from argparse import ArgumentParser, Namespace
 
 from duplication.detectors import NaiveDetector, FilteringDetector
 from duplication.utils import write_formatted_detection_result, make_absolute_path
+from duplication.profiler import Profile
 
 
 def main(program_args: Namespace) -> None:
@@ -16,7 +17,9 @@ def main(program_args: Namespace) -> None:
     if detector_type == "Filtering":
         detector = FilteringDetector(depth)
 
-    result = detector.detect(directory, threshold, granularity)
+    with Profile("detection"):
+        result = detector.detect(directory, threshold, granularity)
+
     print(f"Writing result to {output}...")
     write_formatted_detection_result(result, output)
 
