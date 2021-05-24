@@ -1,8 +1,8 @@
 from argparse import ArgumentParser, Namespace
 
-from duplication.detectors import NaiveDetector, FilteringDetector
-from duplication.utils import write_formatted_detection_result, make_absolute_path
-from duplication.profiler import Profile
+from potator.detectors import NaiveDetector, FilteringDetector
+from potator.utils import write_formatted_detection_result, make_absolute_path
+from potator.profiler import Profile
 
 
 def parse_args() -> Namespace:

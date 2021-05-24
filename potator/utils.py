@@ -3,7 +3,7 @@ from collections import defaultdict, Counter
 from difflib import HtmlDiff
 from typing import List, Dict
 
-from duplication.models import DetectionResult, EntityData
+from potator.models import DetectionResult, EntityData
 
 
 HTML_HEADER = """

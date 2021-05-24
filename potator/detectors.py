@@ -2,12 +2,12 @@ from dataclasses import dataclass
 from math import ceil
 from typing import List
 
-from duplication.extractors import EntitiesExtractor
-from duplication.indexer import Indexer, get_tokens_bounds
-from duplication.models import CloneData, DetectionResult, EntityData
-from duplication.similarity_metrics import jaccard
-from duplication.utils import sort_tokens_gtc, LANGUAGE_ORDER
-from duplication.profiler import Profile
+from potator.extractors import EntitiesExtractor
+from potator.indexer import Indexer, get_tokens_bounds
+from potator.models import CloneData, DetectionResult, EntityData
+from potator.similarity_metrics import jaccard
+from potator.utils import sort_tokens_gtc, LANGUAGE_ORDER
+from potator.profiler import Profile
 
 
 def _validate_entity_candidate(entity: EntityData, candidate: EntityData) -> bool:

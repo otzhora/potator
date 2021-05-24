@@ -1,6 +1,6 @@
 .idea
 venv
-duplication/tokenizer
+potator/tokenizer
 */.ipynb_checkpoints/*
 */__pycache__/*
 dist

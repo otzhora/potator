@@ -3,7 +3,7 @@ from dataclasses import dataclass
 from math import ceil
 from typing import List, Dict, Tuple
 
-from duplication.models import EntityData
+from potator.models import EntityData
 
 
 @dataclass
