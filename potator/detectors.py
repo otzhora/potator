@@ -26,7 +26,7 @@ class NaiveDetector(Detector):
             files, files_data, entities = EntitiesExtractor.extract_data_from_directory(directory, granularity)
 
         clones = []
-        with Profile("Validate candidates set"):
+        with Profile("Search for clones in candidates set"):
             for i in range(len(entities)):
                 entity = entities[i]
                 for j in range(i + 1, len(entities)):
@@ -105,7 +105,7 @@ class FilteringDetector(Detector):
                     for token in tokens[left_bound: right_bound]:
                         candidates.update(indexer.get_entities_for_token(token, lang, l_depth))
 
-            with Profile("Validate candidates set"):
+            with Profile("Search for clones in candidates set"):
                 for candidate in candidates:
                     if not _validate_entity_candidate(entity, candidate):
                         continue

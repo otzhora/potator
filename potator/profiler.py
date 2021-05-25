@@ -10,8 +10,9 @@ DEBUG_TIMES = defaultdict(float)
 
 def print_debug_exit():
     if DEBUG:
+        print(f"{'NAME':>50} : {'N_OCCUR':>8} {'TIME SPENT':>12} ms")
         for name, _ in sorted(DEBUG_TIMES.items(), key=lambda x: -x[1]):
-            print(f"{name:>50} : {DEBUG_COUNTS[name]:>6} {DEBUG_TIMES[name]:>10.2f} ms")
+            print(f"{name:>50} : {DEBUG_COUNTS[name]:>8} {DEBUG_TIMES[name]:>12.2f} ms")
 
 
 atexit.register(print_debug_exit)

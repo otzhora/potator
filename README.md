@@ -34,12 +34,12 @@ potator [-h] [-d {Naive,Filtering}] [--depth DEPTH] [-t THRESHOLD] [-g GRANULARI
 
 ### Options
 
-* You can choose one of two detectors: Naive and Filtering. Naive detector compares every possible combination of source code fragments and calculates jaccard similarity between them. Filtering detector implements algorithm from SourcererCC paper with an adaptive prefix filtering optimizations.
-* Depth parameters specify the maximum depth of adaptive prefix. `depth=2` is recommended. Since it offers the optimal balance between costs of building index and querying it. 
-* Threshold is the minimum score that two code fragments should have to be considered clones.
-* Granularity specifies granularity of code blocks. Options are `functions` and `classes`. `functions` is recommended.
-* Out specifies the name of the resulting html
-* Directory is the directory with files on which to perform search.
+* You can choose one of two detectors: `Naive` and `Filtering`. `Naive detector` compares every possible combination of source code fragments and calculates [Jaccard similarity](https://en.wikipedia.org/wiki/Jaccard_index#Generalized_Jaccard_similarity_and_distance) between them. `Filtering detector` implements algorithm from `SourcererCC` paper with an `adaptive prefix filtering` optimizations.
+* `depth` parameters specify the maximum depth of adaptive prefix. `depth=2` is recommended. Since it offers the optimal balance between costs of building index and querying it. 
+* `threshold` is the minimum score that two code fragments should have to be considered clones.
+* `granularity` specifies granularity of code blocks. Options are `functions` and `classes`. `functions` is recommended.
+* `out` specifies the name of the resulting html
+* `directory` is the directory with files on which to perform search.
 
 You can also do `export DEBUG=1` before the search, then profiling information will be printed out.
 
