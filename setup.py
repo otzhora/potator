@@ -28,7 +28,7 @@ class PostInstallCommand(install):
 setup(
     name='potator',
     description='',
-    version='0.1.3',
+    version='0.1.4',
     packages=['potator'],
     package_dir={'potator': 'potator'},
     install_requires=[
@@ -50,7 +50,7 @@ setup(
     long_description_content_type="text/markdown",
     license='MIT',
     url='https://github.com/otzhora/potator',
-    download_url='https://github.com/otzhora/potator/releases/tag/v0.1.3',
+    download_url='https://github.com/otzhora/potator/releases/tag/v0.1.4',
     keywords=['STATIC-ANALYSIS', 'PLAGIARISM-DETECTION', 'PLAGIARISM-DETECTOR'],
     author_email='rogachev.yuiry28@gmail.com',
     classifiers=[

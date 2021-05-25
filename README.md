@@ -1,5 +1,7 @@
 Small code clone detection tool. It implements an algorithm from [SourcererCC](https://arxiv.org/abs/1512.06448) with [adaptive prefix filtering](https://www.sciencedirect.com/science/article/abs/pii/S0164121217302790) optimizations and displays its results as HTML. 
 
+It works with `JavaScript`, `Python`, `Java`, `Go`, `C++`, `PHP`, `C#`, `C`, `Swift`, `Kotlin` and `Haskell`.
+
 # Supported platforms
 
 `potator` supports Linux and macOS. It is possible to use `potator` on Windows under WSL
